@@ -1,18 +1,19 @@
 package jdbc.stage0;
 
-import org.h2.jdbcx.JdbcDataSource;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.h2.jdbcx.JdbcDataSource;
+import org.junit.jupiter.api.Test;
 
 class Stage0Test {
 
     private static final String H2_URL = "jdbc:h2:./test";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
+
 
     /**
      * DriverManager
@@ -26,10 +27,10 @@ class Stage0Test {
      * https://docs.oracle.com/javadb/10.8.3.0/ref/rrefjdbc4_0summary.html
      */
     @Test
-    void driverManager() throws SQLException {
+    void driverManager() throws SQLException, ClassNotFoundException {
         // Class.forName("org.h2.Driver"); // JDBC 4.0 부터 생략 가능
         // DriverManager 클래스를 활용하여 static 변수의 정보를 활용하여 h2 db에 연결한다.
-        try (final Connection connection = null) {
+        try (final Connection connection = DriverManager.getConnection(H2_URL)) {
             assertThat(connection.isValid(1)).isTrue();
         }
     }
@@ -49,7 +50,8 @@ class Stage0Test {
      */
     @Test
     void dataSource() throws SQLException {
-        final JdbcDataSource dataSource = null;
+        final JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setURL(H2_URL);
 
         try (final var connection = dataSource.getConnection()) {
             assertThat(connection.isValid(1)).isTrue();

@@ -2,10 +2,9 @@ package jdbc;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
@@ -21,8 +20,8 @@ public class DataSourceConfig {
         final var hikariConfig = new HikariConfig();
         hikariConfig.setPoolName("gugu");
         hikariConfig.setJdbcUrl(H2_URL);
-        hikariConfig.setUsername(USER);
-        hikariConfig.setPassword(PASSWORD);
+        //hikariConfig.setUsername(USER);
+        //hikariConfig.setPassword(PASSWORD);
         hikariConfig.setMaximumPoolSize(MAXIMUM_POOL_SIZE);
         hikariConfig.setConnectionTestQuery("VALUES 1");
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
